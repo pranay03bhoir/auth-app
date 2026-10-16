@@ -1,5 +1,6 @@
 package com.pranay.authappbackend.services;
 
+import com.pranay.authappbackend.Dtos.UpdateUserDto;
 import com.pranay.authappbackend.Dtos.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,9 @@ public interface UserService {
 
     UserDto getUserByEmail(String email);
 
-    UserDto updateUser(UserDto userDto, UUID userId);
+    UserDto getUserById(UUID userId);
+
+    UserDto updateUser(UpdateUserDto updateUserDto, UUID userId);
 
     void deleteUser(UUID userId);
 
