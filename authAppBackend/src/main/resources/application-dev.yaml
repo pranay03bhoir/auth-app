@@ -29,3 +29,8 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         show_sql: true
         format_sql: true
+
+# Spring Security Debug Configurations
+logging:
+  level:
+    org.springframework.security: DEBUG

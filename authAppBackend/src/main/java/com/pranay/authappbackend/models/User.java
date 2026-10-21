@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -17,19 +18,19 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
     private UUID id;
-    @Column(name = "user_email",unique = true,length = 300)
+    @Column(name = "user_email", unique = true, length = 300)
     private String email;
-    @Column(name = "user_name",length = 500)
+    @Column(name = "user_name", length = 500)
     private String name;
     private String password;
     private String image;
-//    private String gender;
+    //    private String gender;
 //    private Address address;
     @Builder.Default
     private boolean enabled = true;
@@ -48,4 +49,37 @@ public class User {
     @CreationTimestamp
     private Instant createdAt;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        return roles
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

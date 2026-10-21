@@ -18,6 +18,7 @@ public class RegisterUserDto {
     private String email;
     private String name;
     private String password;
+    private String image;
     @Builder.Default
     private boolean enabled = true;
     @Builder.Default
